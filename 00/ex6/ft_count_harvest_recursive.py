@@ -7,4 +7,4 @@ def ft_count_harvest_recursive() -> None:
         else:
             print("Day", time)
             recursion_count(time - 1)
-        recursion_count(time)
+    recursion_count(time)
