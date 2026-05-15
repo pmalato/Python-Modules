@@ -1,5 +1,5 @@
 def ft_count_harvest_recursive() -> None:
-    time = int(input("Days unitl harvest:"))
+    time = int(input("Days until harvest: "))
 
     def recursion_count(time):
         if time == 0:
