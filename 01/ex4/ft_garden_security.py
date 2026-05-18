@@ -1,50 +1,50 @@
 class Plant:
     def __init__(self, name: str, height: float, day: int) -> None:
-        self.name = name
-        self.height = height
-        self.day = day
+        self._name = name
+        self._height = self.set_height(height)
+        self._day = self.set_age(day)
 
     def grow(self) -> float:
-        self.height += 0.8
-        return self.height
+        self._height += 0.8
+        return self._height
 
     def age(self) -> int:
-        self.day += 1
-        return self.day
+        self._day += 1
+        return self._day
 
     def set_height(self, nb) -> float:
-        if nb < 0:
-            print(f"{self.name}: Error, height can't be negative")
+        if nb < 0.0:
+            print(f"{self._name}: Error, height can't be negative")
             print("Height update rejected")
         else:
-            self.height = nb
-            print(f"Height updated: {self.height:.1f}cm")
-        return self.height
+            self._height = nb
+            print(f"Height updated: {self._height:.1f}cm")
+        return self._height
 
     def set_age(self, nb) -> int:
         if nb < 0:
-            print(f"{self.name}: Error, age can't be negative")
+            print(f"{self._name}: Error, age can't be negative")
             print("Height update rejected")
         else:
-            self.day = round(nb)
-            print(f"Age updated: {self.day} days")
-        return self.day
+            self._day = round(nb)
+            print(f"Age updated: {self._day} days")
+        return self._day
 
     def get_height(self) -> None:
-        print(f"Current height: {self.height:.1f}cm")
+        print(f"Current height: {self._height:.1f}cm")
 
     def get_age(self) -> None:
-        print(f"Current age: {self.day} days old")
+        print(f"Current age: {self._day} days old")
 
     def state_check(self) -> None:
         print(
-                f"Current state: {self.name}: {self.height:.1f}cm, "
-                f"{self.day} days old")
+                f"Current state: {self._name}: {self._height:.1f}cm, "
+                f"{self._day} days old")
 
     def show(self) -> None:
         print(
-                f"Created: {self.name}: {self.height:.1f}cm,"
-                f"{self.day} days old")
+                f"Created: {self._name}: {self._height:.1f}cm,"
+                f"{self._day} days old")
 
 
 def main() -> None:
