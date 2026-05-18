@@ -83,6 +83,7 @@ class Vegetable(Plant):
         super().__init__(name, height, day)
         self.harvest_season = harvest_season
         self.nutricional_value = 0
+        self.starting_age = day
 
     def harvest_timing(self) -> None:
         print(f"Harvest season: {self.harvest_season}")
@@ -108,6 +109,18 @@ def main() -> None:
     tree1.show()
     tree1.trunk_state()
     tree1.produce_shade()
+    print("\n")
+    print("=== Vegetable ===")
+    vegetable1 = Vegetable("Tomato", 5, 10, "April")
+    vegetable1.show()
+    vegetable1.harvest_timing()
+    vegetable1.nutricional_state()
+    while vegetable1._day < 30:
+        vegetable1.age()
+    vegetable1.nutricional_value = vegetable1._day - vegetable1.starting_age
+    vegetable1.show()
+    vegetable1.harvest_timing()
+    vegetable1.nutricional_state()
 
 
 if __name__ == "__main__":
