@@ -8,7 +8,7 @@ class Plant:
         print(f"{self.name}: {self.height}cm, {self.age} days old")
 
 
-def main():
+def main() -> None:
     plant1 = Plant("Rose", 25, 30)
     plant2 = Plant("Sunflower", 80, 45)
     plant3 = Plant("Cactus", 15, 120)

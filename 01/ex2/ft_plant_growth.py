@@ -16,7 +16,7 @@ class Plant:
         print(f"{self.name}: {self.height:.1f}cm, {self.day} days old")
 
 
-def main():
+def main() -> None:
     plant1 = Plant("Rose", 25, 30)
     print("=== Garden Plant Growth ===")
     plant1.show()
