@@ -12,7 +12,7 @@ class Plant:
         self._day += 1
         return self._day
 
-    def set_height(self, nb) -> float:
+    def set_height(self, nb):
         if nb < 0:
             print(f"{self._name}: Error, height can't be negative")
             print("Height update rejected")
