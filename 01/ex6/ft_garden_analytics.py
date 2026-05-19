@@ -41,6 +41,17 @@ class Plant:
                 f"Current state: {self._name}: {self._height:.1f}cm, "
                 f"{self._day} days old")
 
+    @staticmethod
+    def one_year_check(nb) -> bool:
+        if nb > 1:
+            return True
+        else:
+            return False
+
+    @classmethod
+    def anonymous(cls):
+        return (cls())
+
     def show(self) -> None:
         print(
                 f"{self._name}: {self._height:.1f}cm,"
@@ -93,34 +104,8 @@ class Vegetable(Plant):
 
 
 def main() -> None:
-    print("=== Garden Plant Types ===")
-    print("=== Flower")
-    flower1 = Flower("Rose", 15, 10, "red")
-    flower1.show()
-    print(f"Color: {flower1.color}")
-    flower1.bloom_state()
-    flower1.bloom()
-    flower1.show()
-    print(f"Color: {flower1.color}")
-    flower1.bloom_state()
-    print("\n")
-    print("=== Tree")
-    tree1 = Tree("Oak", 200, 365, 5)
-    tree1.show()
-    tree1.trunk_state()
-    tree1.produce_shade()
-    print("\n")
-    print("=== Vegetable")
-    vegetable1 = Vegetable("Tomato", 5, 10, "April")
-    vegetable1.show()
-    vegetable1.harvest_timing()
-    vegetable1.nutricional_state()
-    while vegetable1._day < 30:
-        vegetable1.age()
-    vegetable1.nutricional_value = vegetable1._day - vegetable1.starting_age
-    vegetable1.show()
-    vegetable1.harvest_timing()
-    vegetable1.nutricional_state()
+    print("=== Garden Statistics ===")
+    print("=== Check year-old")
 
 
 if __name__ == "__main__":
