@@ -42,10 +42,12 @@ class Plant:
                 f"{self._day} days old")
 
     @staticmethod
-    def one_year_check(nb) -> bool:
-        if nb > 1:
+    def one_year_check(nb) -> int:
+        if nb > 365:
+            print(f"is {nb} days more than a year? -> True")
             return True
         else:
+            print(f"is {nb} days more than a year? -> False")
             return False
 
     @classmethod
@@ -72,6 +74,9 @@ class Flower(Plant):
             print(f"{self._name} has not bloomed yet")
         else:
             print(f"{self._name} is boolming beautifully!")
+
+    def color_check(self) -> None:
+        print(f"Color: {self.color}")
 
 
 class Tree(Plant):
@@ -106,6 +111,16 @@ class Vegetable(Plant):
 def main() -> None:
     print("=== Garden Statistics ===")
     print("=== Check year-old")
+    plant1 = Plant("Lily", 12, 30)
+    plant2 = Plant("Daisy", 20, 400)
+    plant1.one_year_check(plant1._day)
+    plant2.one_year_check(plant2._day)
+    print("\n")
+    print("=== Flower")
+    flower1 = Flower("Rose", 15, 10, "Red")
+    flower1.show()
+    flower1.color_check()
+    flower1.bloom_state()
 
 
 if __name__ == "__main__":
