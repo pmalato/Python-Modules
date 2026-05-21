@@ -99,14 +99,11 @@ class Seed(Flower):
         self.seedcount = cseed
         self.seedsave = cseed
 
-    def seed_count(self) -> int:
+    def seed_show(self) -> None:
         if self.bloomed is False:
             self.seedcount = 0
         else:
             self.seedcount = self.seedsave
-        return self.seedcount
-
-    def seed_show(self) -> None:
         print(f"Seeds: {self.seedcount}")
 
 
@@ -179,7 +176,6 @@ def main() -> None:
     seed1.show()
     seed1.color_check()
     seed1.bloom_state()
-    seed1.seed_count()
     seed1.seed_show()
     seed1.grow(30)
     seed1.age(20)
@@ -187,7 +183,6 @@ def main() -> None:
     seed1.show()
     seed1.color_check()
     seed1.bloom_state()
-    seed1.seed_count()
     seed1.seed_show()
     seed1.stats_show()
     print("\n")
