@@ -4,12 +4,12 @@ class Plant:
         self._height = height
         self._day = day
 
-    def grow(self) -> float:
-        self._height += 0.8
+    def grow(self, nb) -> float:
+        self._height += nb
         return self._height
 
-    def age(self) -> int:
-        self._day += 1
+    def age(self, nb) -> int:
+        self._day += nb
         return self._day
 
     def set_height(self, nb):
@@ -42,9 +42,8 @@ class Plant:
                 f"{self._day} days old")
 
     def show(self) -> None:
-        print(
-                f"{self._name}: {self._height:.1f}cm,"
-                f" {self._day} days old")
+        print(f"{self._name}: {self._height:.1f}cm,"
+              f" {self._day} days old")
 
 
 class Flower(Plant):
@@ -56,7 +55,10 @@ class Flower(Plant):
     def bloom(self) -> None:
         self.bloomed = True
 
-    def bloom_state(self) -> None:
+    def show(self) -> None:
+        print(f"{self._name}: {self._height:.1f}cm,"
+              f" {self._day} days old")
+        print(f"Color: {self.color}")
         if self.bloomed is False:
             print(f"{self._name} has not bloomed yet")
         else:
@@ -73,7 +75,9 @@ class Tree(Plant):
         print(f"Tree {self._name} produces shade of {self._height:.1f}cm long"
               f" and {self.trunk_diameter:.1f}cm wide")
 
-    def trunk_state(self) -> None:
+    def show(self) -> None:
+        print(f"{self._name}: {self._height:.1f}cm,"
+              f" {self._day} days old")
         print(f"Trunk diameter: {self.trunk_diameter:.1f}cm")
 
 
@@ -82,14 +86,13 @@ class Vegetable(Plant):
                  day: int, harvest_season: str) -> None:
         super().__init__(name, height, day)
         self.harvest_season = harvest_season
-        self.nutricional_value = 0
         self.starting_age = day
 
-    def harvest_timing(self) -> None:
+    def show(self) -> None:
+        print(f"{self._name}: {self._height:.1f}cm,"
+              f" {self._day} days old")
         print(f"Harvest season: {self.harvest_season}")
-
-    def nutricional_state(self) -> None:
-        print(f"Nutricional value: {self.nutricional_value}")
+        print(f"Nutricional value: {self._day - self.starting_age}")
 
 
 def main() -> None:
@@ -97,30 +100,19 @@ def main() -> None:
     print("=== Flower")
     flower1 = Flower("Rose", 15, 10, "red")
     flower1.show()
-    print(f"Color: {flower1.color}")
-    flower1.bloom_state()
     flower1.bloom()
     flower1.show()
-    print(f"Color: {flower1.color}")
-    flower1.bloom_state()
     print("\n")
     print("=== Tree")
     tree1 = Tree("Oak", 200, 365, 5)
     tree1.show()
-    tree1.trunk_state()
     tree1.produce_shade()
     print("\n")
     print("=== Vegetable")
     vegetable1 = Vegetable("Tomato", 5, 10, "April")
     vegetable1.show()
-    vegetable1.harvest_timing()
-    vegetable1.nutricional_state()
-    while vegetable1._day < 30:
-        vegetable1.age()
-    vegetable1.nutricional_value = vegetable1._day - vegetable1.starting_age
+    vegetable1.age(20)
     vegetable1.show()
-    vegetable1.harvest_timing()
-    vegetable1.nutricional_state()
 
 
 if __name__ == "__main__":
