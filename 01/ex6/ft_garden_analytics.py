@@ -11,6 +11,9 @@ class Plant:
             self._cage = 0
             self._cshow = 0
 
+        def display_stats(self) -> None:
+            print(f"{self._cgrow} grow, {self._cage} age, {self._cshow} show")
+
     def grow(self, nb) -> float:
         self._height += nb
         self._stats._cgrow += 1
@@ -68,10 +71,6 @@ class Plant:
         print(f"{self._name}: {self._height:.1f}cm,"
               f" {self._day} days old")
 
-    def stats_show(self) -> None:
-        print(f"Stats: {self._stats._cgrow} grow,"
-              f" {self._stats._cage} age, {self._stats._cshow} show")
-
 
 class Flower(Plant):
     def __init__(self, name: str, height: float, day: int, color: str) -> None:
@@ -82,14 +81,15 @@ class Flower(Plant):
     def bloom(self) -> None:
         self.bloomed = True
 
-    def bloom_state(self) -> None:
+    def show(self) -> None:
+        self._stats._cshow += 1
+        print(f"{self._name}: {self._height:.1f}cm,"
+              f" {self._day} days old")
+        print(f"Color: {self.color}")
         if self.bloomed is False:
             print(f"{self._name} has not bloomed yet")
         else:
             print(f"{self._name} is boolming beautifully!")
-
-    def color_check(self) -> None:
-        print(f"Color: {self.color}")
 
 
 class Seed(Flower):
@@ -99,11 +99,17 @@ class Seed(Flower):
         self.seedcount = cseed
         self.seedsave = cseed
 
-    def seed_show(self) -> None:
+    def show(self) -> None:
+        self._stats._cshow += 1
+        print(f"{self._name}: {self._height:.1f}cm,"
+              f" {self._day} days old")
+        print(f"Color: {self.color}")
         if self.bloomed is False:
             self.seedcount = 0
+            print(f"{self._name} has not bloomed yet")
         else:
             self.seedcount = self.seedsave
+            print(f"{self._name} is boolming beautifully!")
         print(f"Seeds: {self.seedcount}")
 
 
@@ -122,8 +128,11 @@ class Tree(Plant):
     def trunk_state(self) -> None:
         print(f"Trunk diameter: {self.trunk_diameter:.1f}cm")
 
-    def shade_show(self) -> None:
-        print(f"{self.nshade} shade")
+    def show(self) -> None:
+        self._stats._cshow += 1
+        print(f"{self._name}: {self._height:.1f}cm,"
+              f" {self._day} days old")
+        print(f"Trunk diameter: {self.trunk_diameter:.1f}cm")
 
 
 class Vegetable(Plant):
@@ -131,14 +140,17 @@ class Vegetable(Plant):
                  day: int, harvest_season: str) -> None:
         super().__init__(name, height, day)
         self.harvest_season = harvest_season
-        self.nutricional_value = 0
         self.starting_age = day
 
-    def harvest_timing(self) -> None:
+    def show(self) -> None:
+        print(f"{self._name}: {self._height:.1f}cm,"
+              f" {self._day} days old")
         print(f"Harvest season: {self.harvest_season}")
+        print(f"Nutricional value: {self._day - self.starting_age}")
 
-    def nutricional_state(self) -> None:
-        print(f"Nutricional value: {self.nutricional_value}")
+
+def display(obj: Plant) -> None:
+    obj._stats.display_stats()
 
 
 def main() -> None:
@@ -148,48 +160,36 @@ def main() -> None:
     plant2 = Plant("Daisy", 20, 400)
     plant1.one_year_check(plant1._day)
     plant2.one_year_check(plant2._day)
-    print("\n")
+    print()
     print("=== Flower")
     flower1 = Flower("Rose", 15, 10, "Red")
     flower1.show()
-    flower1.color_check()
-    flower1.bloom_state()
-    flower1.stats_show()
+    display(flower1)
     flower1.grow(8)
     flower1.bloom()
     flower1.show()
-    flower1.color_check()
-    flower1.stats_show()
-    print("\n")
+    display(flower1)
+    print()
     print("=== Tree")
     tree1 = Tree("Oak", 200, 365, 5)
     tree1.show()
-    tree1.trunk_state()
-    tree1.stats_show()
-    tree1.shade_show()
+    display(tree1)
     tree1.produce_shade()
-    tree1.stats_show()
-    tree1.shade_show()
-    print("\n")
+    display(tree1)
+    print()
     print("=== Seed")
     seed1 = Seed("Sunflower", 80, 45, "yellow", 42)
     seed1.show()
-    seed1.color_check()
-    seed1.bloom_state()
-    seed1.seed_show()
     seed1.grow(30)
     seed1.age(20)
     seed1.bloom()
     seed1.show()
-    seed1.color_check()
-    seed1.bloom_state()
-    seed1.seed_show()
-    seed1.stats_show()
-    print("\n")
+    display(seed1)
+    print()
     print("=== Anonymous")
     plant3 = Plant.anonymous()
     plant3.show()
-    plant3.stats_show()
+    display(plant3)
 
 
 if __name__ == "__main__":
