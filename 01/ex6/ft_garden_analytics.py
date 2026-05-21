@@ -3,13 +3,22 @@ class Plant:
         self._name = name
         self._height = height
         self._day = day
+        self._stats = Plant.Stats()
 
-    def grow(self) -> float:
-        self._height += 0.8
+    class Stats:
+        def __init__(self) -> None:
+            self._cgrow = 0
+            self._cage = 0
+            self._cshow = 0
+
+    def grow(self, nb) -> float:
+        self._height += nb
+        self._stats._cgrow += 1
         return self._height
 
-    def age(self) -> int:
-        self._day += 1
+    def age(self, nb) -> int:
+        self._day += nb
+        self._stats._cage += 1
         return self._day
 
     def set_height(self, nb):
@@ -52,12 +61,16 @@ class Plant:
 
     @classmethod
     def anonymous(cls):
-        return (cls())
+        return (cls(cls._name, cls._height, cls._day))
 
     def show(self) -> None:
-        print(
-                f"{self._name}: {self._height:.1f}cm,"
-                f" {self._day} days old")
+        self._stats._cshow += 1
+        print(f"{self._name}: {self._height:.1f}cm,"
+              f" {self._day} days old")
+
+    def stats_show(self) -> None:
+        print(f"Stats: {self._stats._cgrow} grow,"
+              f" {self._stats._cage} age, {self._stats._cshow} show")
 
 
 class Flower(Plant):
@@ -84,13 +97,18 @@ class Tree(Plant):
                  day: int, trunk_diameter: float) -> None:
         super().__init__(name, height, day)
         self.trunk_diameter = trunk_diameter
+        self.nshade = 0
 
     def produce_shade(self) -> None:
+        self.nshade += 1
         print(f"Tree {self._name} produces shade of {self._height:.1f}cm long"
               f" and {self.trunk_diameter:.1f}cm wide")
 
     def trunk_state(self) -> None:
         print(f"Trunk diameter: {self.trunk_diameter:.1f}cm")
+
+    def shade_show(self) -> None:
+        print(f"{self.nshade} shade")
 
 
 class Vegetable(Plant):
@@ -121,6 +139,24 @@ def main() -> None:
     flower1.show()
     flower1.color_check()
     flower1.bloom_state()
+    flower1.stats_show()
+    flower1.grow(8)
+    flower1.bloom()
+    flower1.show()
+    flower1.color_check()
+    flower1.stats_show()
+    print("\n")
+    print("=== Tree")
+    tree1 = Tree("Oak", 200, 365, 5)
+    tree1.show()
+    tree1.trunk_state()
+    tree1.stats_show()
+    tree1.shade_show()
+    tree1.produce_shade()
+    tree1.stats_show()
+    tree1.shade_show()
+    print("\n")
+    print("=== Seed")
 
 
 if __name__ == "__main__":
