@@ -61,7 +61,7 @@ class Plant:
 
     @classmethod
     def anonymous(cls):
-        return (cls(cls._name, cls._height, cls._day))
+        return (cls("Unknown name", 0, 0))
 
     def show(self) -> None:
         self._stats._cshow += 1
@@ -90,6 +90,24 @@ class Flower(Plant):
 
     def color_check(self) -> None:
         print(f"Color: {self.color}")
+
+
+class Seed(Flower):
+    def __init__(self, name: str, height: float,
+                 day: int, color: str, cseed: int) -> None:
+        super().__init__(name, height, day, color)
+        self.seedcount = cseed
+        self.seedsave = cseed
+
+    def seed_count(self) -> int:
+        if self.bloomed is False:
+            self.seedcount = 0
+        else:
+            self.seedcount = self.seedsave
+        return self.seedcount
+
+    def seed_show(self) -> None:
+        print(f"Seeds: {self.seedcount}")
 
 
 class Tree(Plant):
@@ -157,6 +175,26 @@ def main() -> None:
     tree1.shade_show()
     print("\n")
     print("=== Seed")
+    seed1 = Seed("Sunflower", 80, 45, "yellow", 42)
+    seed1.show()
+    seed1.color_check()
+    seed1.bloom_state()
+    seed1.seed_count()
+    seed1.seed_show()
+    seed1.grow(30)
+    seed1.age(20)
+    seed1.bloom()
+    seed1.show()
+    seed1.color_check()
+    seed1.bloom_state()
+    seed1.seed_count()
+    seed1.seed_show()
+    seed1.stats_show()
+    print("\n")
+    print("=== Anonymous")
+    plant3 = Plant.anonymous()
+    plant3.show()
+    plant3.stats_show()
 
 
 if __name__ == "__main__":
