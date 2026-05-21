@@ -10,9 +10,18 @@ class Plant:
             self._cgrow = 0
             self._cage = 0
             self._cshow = 0
+            self._shade = 0
 
         def display_stats(self) -> None:
             print(f"{self._cgrow} grow, {self._cage} age, {self._cshow} show")
+
+    class TreeStats(Stats):
+        def __init__(self) -> None:
+            super().__init__()
+
+        def display_stats(self) -> None:
+            print(f"{self._cgrow} grow, {self._cage} age, {self._cshow} show")
+            print(f"{self._shade} shade")
 
     def grow(self, nb) -> float:
         self._height += nb
@@ -118,10 +127,10 @@ class Tree(Plant):
                  day: int, trunk_diameter: float) -> None:
         super().__init__(name, height, day)
         self.trunk_diameter = trunk_diameter
-        self.nshade = 0
+        self._stats = Plant.TreeStats()
 
     def produce_shade(self) -> None:
-        self.nshade += 1
+        self._stats._shade += 1
         print(f"Tree {self._name} produces shade of {self._height:.1f}cm long"
               f" and {self.trunk_diameter:.1f}cm wide")
 
