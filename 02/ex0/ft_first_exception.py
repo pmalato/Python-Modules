@@ -1,19 +1,20 @@
 def input_temperature(temp_str: str) -> int:
-    temp_str = input("Input data is ")
     conv: int = int(temp_str)
+    print(f"Temperature is now {conv}°C\n")
     return conv
 
+
 def test_temperature() -> None:
+    print("=== Garden Temperature ===\n")
+    print("Input data is '25'")
     try:
         input_temperature("25")
-
-def main() -> None:
-    print("=== Garden Temperature ===")
-    print()
-    test_temperature()
-    print()
-    test_temperature()
+        input_temperature("abc")
+    except ValueError as error:
+        print("Input data is '25'")
+        print("Caught input_temperature error:", error, "\n")
+    print("All tests completed - program didn't crash!")
 
 
 if __name__ == "__main__":
-    main()
+    test_temperature()
