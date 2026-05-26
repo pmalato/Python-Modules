@@ -1,6 +1,10 @@
 def input_temperature(temp_str: str) -> int:
     conv: int = int(temp_str)
     print(f"Temperature is now {conv}°C\n")
+    if conv < 0:
+        raise TooLow(f"{conv}°C is too cold for plant (0°C)")
+    elif conv > 40:
+        raise TooHigh(f"{conv}°C is too hold for plant (40°C)")
     return conv
 
 
