@@ -24,17 +24,21 @@ def test_watering_system() -> None:
             water_plant(veggie)
     except PlantError as error:
         print("Caught PlantError:", error)
+        print(".. ending tests and returning to main")
+        return
     finally:
         print("Close watering system")
     print()
     try:
         print("Testing invalid plants...")
         print("Opening watering system")
-        invalid_vegs = {"Tomato", "lettuce", "Carrot"}
-        for veggie in invalid_vegs:
-            water_plant(veggie)
+        invalid_vegs = {"Tomato", "lettuce"}
+        for veggies in invalid_vegs:
+            water_plant(veggies)
     except PlantError as error:
         print("Caught PlantError:", error)
+        print(".. ending tests and returning to main")
+        return
     finally:
         print("Close watering system\n")
         print("Cleanup always happens, even when there's an error")
