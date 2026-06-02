@@ -16,51 +16,32 @@ def water_plant(plant_name: str) -> None:
 
 
 def test_watering_system() -> None:
-    print("=== Garden Watering System ===\n")
-    print("Testing valid plants...")
-    print("Opening watering system")
     try:
-        water_plant("Tomato")
+        print("Testing valid plants...")
+        print("Opening watering system")
+        valid_vegs = {"Tomato", "Lettuce", "Carrots"}
+        for veggie in valid_vegs:
+            water_plant(veggie)
     except PlantError as error:
         print("Caught PlantError:", error)
-        print(".. ending tests and returning to main")
-        return
-    try:
-        water_plant("Lettuce")
-    except PlantError as error:
-        print("Caught PlantError:", error)
-        print(".. ending tests and returning to main")
-        return
-    try:
-        water_plant("Carrots")
-    except PlantError as error:
-        print("Caught PlantError:", error)
-        print(".. ending tests and returning to main")
-        return
     finally:
-        print("Closing watering system")
+        print("Close watering system")
     print()
-    print("Testing invalid plants...")
-    print("Opening watering system")
     try:
-        water_plant("Tomato")
+        print("Testing invalid plants...")
+        print("Opening watering system")
+        invalid_vegs = {"Tomato", "lettuce", "Carrot"}
+        for veggie in invalid_vegs:
+            water_plant(veggie)
     except PlantError as error:
         print("Caught PlantError:", error)
-        print(".. ending tests and returning to main")
-        return
-    try:
-        water_plant("lettuce")
-    except PlantError as error:
-        print("Caught PlantError:", error)
-        print(".. ending tests and returning to main")
-        return
     finally:
-        print("Closing watering system")
-        print()
-        print("Cleanup always happens, even with errors!")
+        print("Close watering system\n")
+        print("Cleanup always happens, even when there's an error")
 
 
 def main() -> None:
+    print("=== Garden Watering System ===\n")
     test_watering_system()
 
 

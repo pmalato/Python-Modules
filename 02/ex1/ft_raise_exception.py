@@ -1,13 +1,13 @@
-class wrgtemper(BaseException):
+class WrgTemper(BaseException):
     pass
 
 
 def input_temperature(temp_str: str) -> int:
     conv: int = int(temp_str)
     if conv < 0:
-        raise wrgtemper(f"{conv}°C is too cold for plant (0°C)")
+        raise WrgTemper(f"{conv}°C is too cold for plant (0°C)")
     elif conv > 40:
-        raise wrgtemper(f"{conv}°C is too hold for plant (40°C)")
+        raise WrgTemper(f"{conv}°C is too hold for plant (40°C)")
     print(f"Temperature is now {conv}°C\n")
     return conv
 
@@ -23,12 +23,12 @@ def test_temperature() -> None:
         print("Caught input_temperature error:", error, "\n")
     try:
         input_temperature("100")
-    except wrgtemper as error:
+    except WrgTemper as error:
         print("Input data is '100'")
         print("Caught input_temperature error:", error, "\n")
     try:
         input_temperature("-50")
-    except wrgtemper as error:
+    except WrgTemper as error:
         print("Input data is '-50'")
         print("Caught input_temperature error:", error, "\n")
     print("All tests completed - program didn't crash!")
