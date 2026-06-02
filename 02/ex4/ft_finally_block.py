@@ -24,16 +24,19 @@ def test_watering_system() -> None:
     except PlantError as error:
         print("Caught PlantError:", error)
         print(".. ending tests and returning to main")
+        return
     try:
         water_plant("Lettuce")
     except PlantError as error:
         print("Caught PlantError:", error)
         print(".. ending tests and returning to main")
+        return
     try:
         water_plant("Carrots")
     except PlantError as error:
         print("Caught PlantError:", error)
         print(".. ending tests and returning to main")
+        return
     finally:
         print("Closing watering system")
     print()
@@ -44,15 +47,17 @@ def test_watering_system() -> None:
     except PlantError as error:
         print("Caught PlantError:", error)
         print(".. ending tests and returning to main")
+        return
     try:
         water_plant("lettuce")
     except PlantError as error:
         print("Caught PlantError:", error)
         print(".. ending tests and returning to main")
+        return
     finally:
         print("Closing watering system")
-    print()
-    print("Cleanup always happens, even with errors!")
+        print()
+        print("Cleanup always happens, even with errors!")
 
 
 def main() -> None:
