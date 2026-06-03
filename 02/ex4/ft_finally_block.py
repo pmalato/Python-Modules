@@ -19,7 +19,7 @@ def test_watering_system() -> None:
     try:
         print("Testing valid plants...")
         print("Opening watering system")
-        valid_vegs = {"Tomato", "Lettuce", "Carrots"}
+        valid_vegs = ["Tomato", "Lettuce", "Carrots"]
         for veggie in valid_vegs:
             water_plant(veggie)
     except PlantError as error:
@@ -32,7 +32,7 @@ def test_watering_system() -> None:
     try:
         print("Testing invalid plants...")
         print("Opening watering system")
-        invalid_vegs = {"Tomato", "lettuce"}
+        invalid_vegs = ["Tomato", "lettuce"]
         for veggies in invalid_vegs:
             water_plant(veggies)
     except PlantError as error:

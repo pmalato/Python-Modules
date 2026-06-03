@@ -7,7 +7,7 @@ def input_temperature(temp_str: str) -> int:
     if conv < 0:
         raise WrgTemper(f"{conv}°C is too cold for plant (0°C)")
     elif conv > 40:
-        raise WrgTemper(f"{conv}°C is too hold for plant (40°C)")
+        raise WrgTemper(f"{conv}°C is too hot for plant (40°C)")
     print(f"Temperature is now {conv}°C\n")
     return conv
 
