@@ -1,8 +1,55 @@
 import sys
 
 
+def add_inventory(inventory: dict, word: str, value: str) -> dict:
+    try:
+        key = str(word)
+        number = int(value)
+        inventory.update({key: number})
+    except ValueError as error:
+        print("Invalid input: ", error)
+    return inventory
+
+
 def main() -> None:
     print("=== Inventory System Analysis ===")
+    inventory: dict = {}
+    discard: list = []
+    count: int = 0
+    amount: int = 0
+    percentage: float
+    for arg in sys.argv:
+        if ":" in arg:
+            try:
+                key, svalue = arg.split(":", 1)
+                value = int(svalue)
+                if key not in inventory or value:
+                    inventory[key] = value
+                    count += 1
+                else:
+                    discard.append(key)
+            except ValueError as error:
+                print("Invalid input: ", error)
+    if discard:
+        print(f"Redundant items: {discard} - discarding")
+    print(f"Got inventory: {inventory}")
+    print(f"Item list: {dict.keys(inventory)}")
+    if count > 0:
+        for x in inventory:
+            amount += inventory[x]
+        print(f"Quantity of items the {count} items: {amount}")
+        for y in inventory:
+            try:
+                percentage = float(inventory[y] / amount * 100)
+                print(f"Item {y} represents {percentage:.2f}%")
+            except ZeroDivisionError as error:
+                print("Invalid input: ", error)
+        print(f"Most abundant item: {min(inventory)}"
+              f" with a quantity of {inventory[min(inventory)]}")
+        print(f"Least abundant item: {max(inventory)}"
+              f" with a quantity of {inventory[max(inventory)]}")
+    inventory = add_inventory(inventory, "mace", "ksdjv3")
+    print(f"Updated inventory: {inventory}")
 
 
 if __name__ == "__main__":
