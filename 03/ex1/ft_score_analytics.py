@@ -7,10 +7,10 @@ def main() -> None:
     invalid: list = []
     for x in sys.argv[1:]:
         try:
-            scores = scores + [int(x)]
+            scores += [int(x)]
         except ValueError:
-            invalid = invalid + [x]
-    if scores != []:
+            invalid += [x]
+    if scores:
         total = sum(scores)
         players = len(sys.argv) - 1
         average = total / players
@@ -27,7 +27,7 @@ def main() -> None:
     else:
         for x in invalid:
             print(f"Invalid parameter: '{x}'")
-        print("No scores provided!"
+        print("No scores provided. "
               "Usage: python3 ft_score_analytics.py <score1> <score2> ...")
 
 

@@ -3,10 +3,10 @@ import random
 
 def gen_player_achievements() -> set:
     achievements: tuple = (
-        "Improper retalition",
-        "This is what I was meant to do. Right..?",
+        "Improper retaliation",
+        "This is what I was meant to do... right?",
         "I voted against shortcuts",
-        "With great power, ... wait, never mind",
+        "With great power... wait, nevermind",
         "The Depth Star",
         "Gotta catch'em all!!!",
         "Couldn't have done it better myself",
@@ -22,10 +22,10 @@ def gen_player_achievements() -> set:
 def main() -> None:
     print("=== Achievement Tracker System ===\n")
     achievements: tuple = (
-        "Improper retalition",
-        "This is what I was meant to do. Right..?",
+        "Improper retaliation",
+        "This is what I was meant to do... right..?",
         "I voted against shortcuts",
-        "With great power, ... wait, never mind",
+        "With great power... wait, nevermind",
         "The Depth Star",
         "Gotta catch'em all!!!",
         "Couldn't have done it better myself",

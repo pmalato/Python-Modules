@@ -42,14 +42,14 @@ def main() -> None:
     distance1: float = math.sqrt(
         (coord1[0] - 0.0)**2 +
         (coord1[1] - 0.0)**2 +
-        (coord1[0] - 0.0)**2)
+        (coord1[2] - 0.0)**2)
     print(f"Distance to center: {round(distance1, 4)}")
     print("\nGet a second set of coordinates")
     coord2: tuple = get_player_position()
     distance2: float = math.sqrt(
         (coord2[0] - coord1[0])**2 +
         (coord2[1] - coord1[1])**2 +
-        (coord2[0] - coord1[2])**2)
+        (coord2[2] - coord1[2])**2)
     print(f"Distance betewen the 2 sets of coordinates: {round(distance2, 4)}")
 
 
