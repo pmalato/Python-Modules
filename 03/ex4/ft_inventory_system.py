@@ -11,6 +11,26 @@ def add_inventory(inventory: dict, word: str, value: str) -> dict:
     return inventory
 
 
+def find_max(glo: dict) -> dict:
+    seen: dict = {}
+    i: int = 0
+    for y in glo:
+        if glo[y] > i:
+            seen = y
+        i = glo[y]
+    return seen
+
+
+def find_min(glo: dict) -> dict:
+    seen: dict = {}
+    i: int = glo[0]
+    for y in glo:
+        if glo[y] < i:
+            seen = y
+        i = glo[y]
+    return seen
+
+
 def main() -> None:
     print("=== Inventory System Analysis ===")
     inventory: dict = {}
@@ -23,7 +43,7 @@ def main() -> None:
             try:
                 key, svalue = arg.split(":", 1)
                 value = int(svalue)
-                if key not in inventory or value:
+                if key not in inventory:
                     inventory[key] = value
                     count += 1
                 else:
@@ -44,10 +64,10 @@ def main() -> None:
                 print(f"Item {y} represents {percentage:.2f}%")
             except ZeroDivisionError as error:
                 print("Invalid input: ", error)
-        print(f"Most abundant item: {min(inventory)}"
-              f" with a quantity of {inventory[min(inventory)]}")
-        print(f"Least abundant item: {max(inventory)}"
-              f" with a quantity of {inventory[max(inventory)]}")
+        print(f"Most abundant item: {find_max(inventory)}"
+              f" with a quantity of {find_max(inventory)[0]}")
+        print(f"Least abundant item: {find_min(inventory)}"
+              f" with a quantity of {find_min(inventory)[0]}")
     inventory = add_inventory(inventory, "mace", "3")
     print(f"Updated inventory: {inventory}")
 
