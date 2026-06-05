@@ -27,7 +27,7 @@ def main() -> None:
                     inventory[key] = value
                     count += 1
                 else:
-                    discard.append(key)
+                    discard += [key]
             except ValueError as error:
                 print("Invalid input: ", error)
     if discard:
@@ -48,7 +48,7 @@ def main() -> None:
               f" with a quantity of {inventory[min(inventory)]}")
         print(f"Least abundant item: {max(inventory)}"
               f" with a quantity of {inventory[max(inventory)]}")
-    inventory = add_inventory(inventory, "mace", "ksdjv3")
+    inventory = add_inventory(inventory, "mace", "3")
     print(f"Updated inventory: {inventory}")
 
 

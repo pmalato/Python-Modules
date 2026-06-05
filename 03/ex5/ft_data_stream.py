@@ -20,8 +20,9 @@ def gen_event() -> Generator[tuple[str, str], None, None]:
 
 def consume_event(series: list) -> Generator[tuple[str, str], None, None]:
     while series:
-        r3: tuple = random.choice(series)
-        series.remove(r3)
+        i: int = random.randint(0, len(series) - 1)
+        r3: tuple = series[i]
+        del series[i]
         yield r3
 
 
@@ -34,7 +35,7 @@ def main() -> None:
     sequence: list = []
     for y in range(1, 11):
         element: tuple = next(event_gen)
-        sequence.append(element)
+        sequence += [element]
     print(f"Built list of 10 events: {sequence}")
     for z in consume_event(sequence):
         print(f"Got event from list: {z}")
