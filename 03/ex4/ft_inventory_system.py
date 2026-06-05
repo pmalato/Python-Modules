@@ -12,23 +12,23 @@ def add_inventory(inventory: dict, word: str, value: str) -> dict:
 
 
 def find_max(glo: dict) -> dict:
-    seen: dict = {}
-    i: int = 0
+    max_key = None
+    max_value = float('inf')
     for y in glo:
-        if glo[y] > i:
-            seen = y
-        i = glo[y]
-    return seen
+        if y is None or glo[y] > max_value:
+            max_key = y
+            max_value = glo[y]
+    return {max_key: max_value}
 
 
 def find_min(glo: dict) -> dict:
-    seen: dict = {}
-    i: int = glo[0]
+    min_key = None
+    min_value = float('inf')
     for y in glo:
-        if glo[y] < i:
-            seen = y
-        i = glo[y]
-    return seen
+        if y is None or glo[y] < min_value:
+            min_key = y
+            min_value = glo[y]
+    return {min_key: min_value}
 
 
 def main() -> None:
@@ -64,10 +64,12 @@ def main() -> None:
                 print(f"Item {y} represents {percentage:.2f}%")
             except ZeroDivisionError as error:
                 print("Invalid input: ", error)
-        print(f"Most abundant item: {find_max(inventory)}"
-              f" with a quantity of {find_max(inventory)[0]}")
-        print(f"Least abundant item: {find_min(inventory)}"
-              f" with a quantity of {find_min(inventory)[0]}")
+        high = find_max(inventory)
+        low = find_min(inventory)
+        print(f"Most abundant item: {high}"
+              f" with a quantity of {high.values}")
+        print(f"Least abundant item: {low}"
+              f" with a quantity of {low.values}")
     inventory = add_inventory(inventory, "mace", "3")
     print(f"Updated inventory: {inventory}")
 
