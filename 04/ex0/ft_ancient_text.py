@@ -17,7 +17,7 @@ def main() -> None:
             file.close()
             print(f"File '{x}' is closed.")
         except (FileNotFoundError, PermissionError) as error:
-            print(f"Error opening file {x}:", error)
+            print(f"Error opening file '{x}':", error)
 
 
 if __name__ == "__main__":

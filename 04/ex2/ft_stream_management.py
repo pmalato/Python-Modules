@@ -28,7 +28,9 @@ def main() -> None:
         print(y)
     print("---")
     phrase: str = "Enter new file name (or empty): "
-    input1 = input(phrase)
+    sys.stdout.write(phrase)
+    sys.stdout.flush()
+    input1 = sys.stdin.readline().rstrip('\n')
     if input1 != "":
         new_file = open(f"{input1}", "w")
         print(f"Saving data to '{input1}'")
