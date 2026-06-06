@@ -4,7 +4,7 @@ import sys
 def main() -> None:
     args: int = len(sys.argv)
     ler: str = ""
-    new_ler: list = []
+    new_ler: list[str] = []
     if args != 2:
         print("Usage: ft_ancient_text.py <file>")
     else:
@@ -13,14 +13,20 @@ def main() -> None:
         try:
             print(f"Accessing file: '{x}'")
             file = open(x, "r")
+        except (OSError) as error:
+            sys.stderr.write(f"Error opening file '{x}': {error}\n")
+            return
+        try:
             print("---")
             ler = file.read()
             print(ler)
             print("---")
+        except (OSError) as error:
+            sys.stderr.write(f"Error reading file '{x}': {error}\n")
+            return
+        finally:
             file.close()
             print(f"File '{x}' is closed.")
-        except (FileNotFoundError, PermissionError) as error:
-            print(f"Error opening file '{x}':", error)
     new_ler = [line + "#" for line in ler.splitlines()]
     print("\nTransform data:")
     print("---")
@@ -31,19 +37,33 @@ def main() -> None:
     try:
         sys.stdout.write(phrase)
     except OSError as error:
-        sys.stderr.write(f"[STDERR] Error opening file '{input1}':", error)
-    finally:
+        sys.stderr.write(f"Error writing file '{x}': {error}\n")
+        return
+    try:
         sys.stdout.flush()
-    input1 = sys.stdin.readline().rstrip('\n')
+    except OSError as error:
+        sys.stderr.write(f"Error flushing file '{x}': {error}\n")
+        return
+    try:
+        input1 = sys.stdin.readline().strip()
+    except OSError as error:
+        sys.stderr.write(f"Error reading file '{x}': {error}\n")
+        return
     if input1 != "":
         try:
-            new_file = open(f"{input1}", "w")
+            new_file = open(input1, "w")
             print(f"Saving data to '{input1}'")
-            for z in new_ler:
+        except OSError as error:
+            sys.stderr.write(f"Error opening file '{input1}': {error}\n")
+            return
+        for z in new_ler:
+            try:
                 new_file.write(z + "\n")
-            new_file.close()
-        except (OSError) as error:
-            sys.stderr.write(f"[STDERR] Error opening file '{input1}':", error)
+            except OSError as error:
+                sys.stderr.write(f"Error writing file '{input1}': {error}\n")
+                new_file.close()
+                return
+        new_file.close()
         print(f"Data saved in file '{input1}'")
     else:
         print("Not saving data.")
