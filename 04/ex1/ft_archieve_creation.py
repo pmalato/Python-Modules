@@ -15,6 +15,7 @@ def main() -> None:
             file = open(x, "r")
         except (OSError) as error:
             print(f"Error opening file '{x}':", error)
+            return
         try:
             print("---")
             ler = file.read()
@@ -22,6 +23,7 @@ def main() -> None:
             print("---")
         except (OSError) as error:
             print(f"Error opening file '{x}':", error)
+            return
         finally:
             file.close()
             print(f"File '{x}' is closed.")
@@ -34,10 +36,19 @@ def main() -> None:
     phrase: str = "Enter new file name (or empty): "
     input1 = input(phrase)
     if input1 != "":
-        new_file = open(f"{input1}", "w")
-        print(f"Saving data to '{input1}'")
+        try:
+            new_file = open(f"{input1}", "w")
+            print(f"Saving data to '{input1}'")
+        except OSError as error:
+            print(f"Error opening file '{input1}':", error)
+            return
         for z in new_ler:
-            new_file.write(z + "\n")
+            try:
+                new_file.write(z + "\n")
+            except OSError as error:
+                print(f"Error opening file '{input1}':", error)
+                new_file.close()
+                return
         new_file.close()
         print(f"Data saved in file '{input1}'")
     else:

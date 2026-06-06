@@ -28,8 +28,12 @@ def main() -> None:
         print(y)
     print("---")
     phrase: str = "Enter new file name (or empty): "
-    sys.stdout.write(phrase)
-    sys.stdout.flush()
+    try:
+        sys.stdout.write(phrase)
+    except OSError as error:
+        sys.stderr.write(f"[STDERR] Error opening file '{input1}':", error)
+    finally:
+        sys.stdout.flush()
     input1 = sys.stdin.readline().rstrip('\n')
     if input1 != "":
         try:
@@ -38,8 +42,8 @@ def main() -> None:
             for z in new_ler:
                 new_file.write(z + "\n")
             new_file.close()
-        except (FileNotFoundError, PermissionError) as error:
-            sys.stderr.write(f"[STDERR] Error opening file '{input1}'", error)
+        except (OSError) as error:
+            sys.stderr.write(f"[STDERR] Error opening file '{input1}':", error)
         print(f"Data saved in file '{input1}'")
     else:
         print("Not saving data.")
