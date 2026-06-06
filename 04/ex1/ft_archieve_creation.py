@@ -13,14 +13,18 @@ def main() -> None:
         try:
             print(f"Accessing file: '{x}'")
             file = open(x, "r")
+        except (OSError) as error:
+            print(f"Error opening file '{x}':", error)
+        try:
             print("---")
             ler = file.read()
             print(ler)
             print("---")
-            file.close()
-            print(f"File '{x}' is closed.")
         except (OSError) as error:
             print(f"Error opening file '{x}':", error)
+        finally:
+            file.close()
+            print(f"File '{x}' is closed.")
     new_ler = [line + "#" for line in ler.splitlines()]
     print("\nTransform data:")
     print("---")
