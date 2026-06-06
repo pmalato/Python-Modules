@@ -19,7 +19,7 @@ def main() -> None:
             print("---")
             file.close()
             print(f"File '{x}' is closed.")
-        except (FileNotFoundError, PermissionError) as error:
+        except (OSError) as error:
             print(f"Error opening file '{x}':", error)
     new_ler = [line + "#" for line in ler.splitlines()]
     print("\nTransform data:")

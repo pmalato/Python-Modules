@@ -32,11 +32,14 @@ def main() -> None:
     sys.stdout.flush()
     input1 = sys.stdin.readline().rstrip('\n')
     if input1 != "":
-        new_file = open(f"{input1}", "w")
-        print(f"Saving data to '{input1}'")
-        for z in new_ler:
-            new_file.write(z + "\n")
-        new_file.close()
+        try:
+            new_file = open(f"{input1}", "w")
+            print(f"Saving data to '{input1}'")
+            for z in new_ler:
+                new_file.write(z + "\n")
+            new_file.close()
+        except (FileNotFoundError, PermissionError) as error:
+            sys.stderr.write(f"[STDERR] Error opening file '{input1}'", error)
         print(f"Data saved in file '{input1}'")
     else:
         print("Not saving data.")

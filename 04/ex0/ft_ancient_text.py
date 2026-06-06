@@ -11,13 +11,18 @@ def main() -> None:
         try:
             print(f"Accessing file: '{x}'")
             file = open(x)
+        except OSError as error:
+            print(f"Error opening file '{x}':", error)
+            return
+        try:
             print("---")
             print(file.read())
             print("---")
+        except OSError as error:
+            print(f"Error opening file '{x}':", error)
+        finally:
             file.close()
             print(f"File '{x}' is closed.")
-        except (FileNotFoundError, PermissionError) as error:
-            print(f"Error opening file '{x}':", error)
 
 
 if __name__ == "__main__":
