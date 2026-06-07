@@ -22,7 +22,7 @@ def main() -> None:
             print(ler)
             print("---")
         except (OSError) as error:
-            print(f"Error opening file '{x}':", error)
+            print(f"Error reading file '{x}':", error)
             return
         finally:
             file.close()
@@ -46,7 +46,7 @@ def main() -> None:
             try:
                 new_file.write(z + "\n")
             except OSError as error:
-                print(f"Error opening file '{input1}':", error)
+                print(f"Error writing file '{input1}':", error)
                 new_file.close()
                 return
         new_file.close()
