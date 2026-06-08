@@ -15,8 +15,10 @@ class DataProcessor(ABC):
     def ingest(self, data: Any) -> None:
         ...
 
-    def output(self, data: Any) -> tuple[int, str]:
-        ...
+    def output(self) -> tuple[int, str]:
+        pop_item: list = [self._index, self._processed_data[self._index]]
+        self._index += 1
+        return (pop_item[0], pop_item.pop(1))
 
 
 class NumericProcessor(DataProcessor):
@@ -35,12 +37,11 @@ class NumericProcessor(DataProcessor):
 
     def ingest(self, data: Any) -> None:
         if (isinstance(data, (int | float)) or
-                isinstance(data, list) and
-                all(isinstance(i, (int, float)) for i in data)):
+                (isinstance(data, list) and
+                    all(isinstance(i, (int, float)) for i in data))):
             if isinstance(data, list):
                 self.processed_data = [str(elem) for elem in data]
-
-            else:
+            elif isinstance(data, (int, float)):
                 self.processed_data = str(data)
         else:
             raise ValueError
@@ -55,6 +56,7 @@ class TextProcessor(DataProcessor):
         if isinstance(data, str | list[str]):
             accept_ingestion = True
         print(f"Trying to validate input '{data}': {accept_ingestion}")
+        return accept_ingestion
 
     def ingest(self, data: Any) -> None:
         if isinstance(data, str | list[str]):
@@ -72,6 +74,7 @@ class LogProcessor(DataProcessor):
         if isinstance(data, dict[str: str] | list[dict[str: str]]):
             accept_ingestion = True
         print(f"Trying to validate input '{data}': {accept_ingestion}")
+        return accept_ingestion
 
     def ingest(self, data: Any) -> None:
         if isinstance(data, dict[str: str] | list[dict[str: str]]):
@@ -95,6 +98,15 @@ def main() -> None:
         num1.ingest("foo")
     except ValueError:
         print("Got exception: Improper numeric data")
+    num_list: list[int] = [1, 2, 3, 4, 5]
+    print(f"Processing data: {num_list}")
+    print(f"Extracting 3 values...")
+    tuple1: tuple = num1.output()
+    tuple2: tuple = num1.output()
+    tuple3: tuple = num1.output()
+    print(f"numeric value:{tuple1}")
+    print(f"numeric value:{tuple2}")
+    print(f"numeric value:{tuple3}")
 
 
 if __name__ == "__main__":
