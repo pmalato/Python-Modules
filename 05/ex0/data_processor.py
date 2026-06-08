@@ -3,55 +3,98 @@ from abc import ABC, abstractmethod
 
 
 class DataProcessor(ABC):
+    def __init__(self) -> None:
+        self._processed_data: Any
+        self._index = 0
+
     @abstractmethod
     def validate(self, data: Any) -> bool:
-        raise NotImplementedError
+        ...
 
     @abstractmethod
     def ingest(self, data: Any) -> None:
-        raise NotImplementedError
+        ...
 
-    def output(self) -> tuple[int, str]:
-        raise NotImplementedError
+    def output(self, data: Any) -> tuple[int, str]:
+        ...
 
 
 class NumericProcessor(DataProcessor):
-    _raw_data: int | float | list[int | float]
-    _processed_data: str
+    def __init__(self) -> None:
+        super().__init__()
 
     def validate(self, data: Any) -> bool:
         accept_ingestion: bool = False
+        if isinstance(data, (int | float)):
+            accept_ingestion = True
+        if (isinstance(data, list)
+                and all(isinstance(i, (int, float)) for i in data)):
+            accept_ingestion = True
+        print(f"Trying to validate input '{data}': {accept_ingestion}")
         return accept_ingestion
 
-    def ingest(self, data: int | float | list[int | float]) -> None:
-        self._raw_data = data
-        if isinstance(data, list):
-            self._processed_data = [str(elem) for elem in data]
+    def ingest(self, data: Any) -> None:
+        if (isinstance(data, (int | float)) or
+                isinstance(data, list) and
+                all(isinstance(i, (int, float)) for i in data)):
+            if isinstance(data, list):
+                self.processed_data = [str(elem) for elem in data]
+
+            else:
+                self.processed_data = str(data)
         else:
-            self._processed_data = str(data)
-        super().output()
+            raise ValueError
 
 
 class TextProcessor(DataProcessor):
+    def __init__(self) -> None:
+        super().__init__()
+
     def validate(self, data: Any) -> bool:
         accept_ingestion: bool = False
-        return accept_ingestion
+        if isinstance(data, str | list[str]):
+            accept_ingestion = True
+        print(f"Trying to validate input '{data}': {accept_ingestion}")
 
     def ingest(self, data: Any) -> None:
-        ...
+        if isinstance(data, str | list[str]):
+            self.processed_data = data
+        else:
+            raise Exception
 
 
 class LogProcessor(DataProcessor):
+    def __init__(self) -> None:
+        super().__init__()
+
     def validate(self, data: Any) -> bool:
         accept_ingestion: bool = False
-        return accept_ingestion
+        if isinstance(data, dict[str: str] | list[dict[str: str]]):
+            accept_ingestion = True
+        print(f"Trying to validate input '{data}': {accept_ingestion}")
 
     def ingest(self, data: Any) -> None:
-        ...
+        if isinstance(data, dict[str: str] | list[dict[str: str]]):
+            if isinstance(list[dict[str: str]]):
+                for x in data[::2]:
+                    self.processed_data = {data[x]: data[x + 1]}
+            else:
+                self.processed_data = data
+        else:
+            raise Exception
 
 
 def main() -> None:
     print("=== Code Nexus - Data Processor ===")
+    print("\nTesting Numeric Processor...")
+    num1 = NumericProcessor()
+    num1.validate(42)
+    num1.validate("Hello")
+    print("Test invalid ingestion of string 'foo' without prior validation:")
+    try:
+        num1.ingest("foo")
+    except ValueError:
+        print("Got exception: Improper numeric data")
 
 
 if __name__ == "__main__":
