@@ -131,60 +131,33 @@ class LogProcessor(DataProcessor):
             raise ValueError
 
 
+class DataStream():
+    def __init__(self) -> None:
+        self._storage: Any
+        self._data_processor: list[DataProcessor] = []
+
+    def register_processor(self, proc: DataProcessor) -> None:
+        self._storage = proc
+
+    def process_stream(self, stream: list[Any]) -> None:
+        for v in stream:
+            checked: bool = False
+            for case in self._data_processor:
+                try:
+                    if case.validate(v):
+                        case.ingest(v)
+                        checked = True
+                        break
+                except ValueError
+            else:
+                raise ValueError(f"Can't process element in stream: {v}")
+
+    def print_processors_stats(self) -> None:
+        ...
+
+
 def main() -> None:
-    print("=== Code Nexus - Data Processor ===")
-    print("\nTesting Numeric Processor...")
-    num1 = NumericProcessor()
-    num1.validate(42)
-    num1.validate("Hello")
-    print("Test invalid ingestion of string 'foo' without prior validation:")
-    try:
-        num1.ingest("foo")
-    except ValueError:
-        print("Got exception: Improper numeric data")
-    num_list: list[int] = [1, 2, 3, 4, 5]
-    print(f"Processing data: {num_list}")
-    try:
-        num1.ingest(num_list)
-    except ValueError:
-        print("Got exception: Improper numeric data")
-    print("Extracting 3 values...")
-    tuple1: tuple = num1.output()
-    tuple2: tuple = num1.output()
-    tuple3: tuple = num1.output()
-    print(f"numeric value {tuple1[0]}: {tuple1[1]}")
-    print(f"numeric value {tuple2[0]}: {tuple2[1]}")
-    print(f"numeric value {tuple3[0]}: {tuple3[1]}")
-    print("\nTesting Text Processor...")
-    text1 = TextProcessor()
-    text1.validate(42)
-    list1: list = ['Hello', 'Nexus', 'World']
-    print(f"Processing data: {list1}")
-    try:
-        text1.ingest(list1)
-    except ValueError:
-        print("Got exception: Improper text data")
-    print("Extracting 2 values...")
-    tuple4: tuple = text1.output()
-    tuple5: tuple = text1.output()
-    print(f"numeric value {tuple4[0]}: {tuple4[1]}")
-    print(f"numeric value {tuple5[0]}: {tuple5[1]}")
-    print("Testing Log Processor...")
-    log1 = LogProcessor()
-    log1.validate("hello")
-    list_dict: list[dict] = [
-        {'log_level': 'NOTICE', 'log_message': 'Connection to server'},
-        {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}]
-    print(f"Processing data: {list_dict}")
-    try:
-        log1.ingest(list_dict)
-    except ValueError:
-        print("Got exception: Improper log data")
-    print("Extracting 2 values...")
-    tuple6: tuple = log1.output()
-    tuple7: tuple = log1.output()
-    print(f"numeric value {tuple6[0]}: {tuple6[1]}")
-    print(f"numeric value {tuple7[0]}: {tuple7[1]}")
+    print("=== Code Nexus - Data Stream ===")
 
 
 if __name__ == "__main__":
