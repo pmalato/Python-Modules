@@ -6,6 +6,7 @@ class DataProcessor(ABC):
     def __init__(self) -> None:
         self._processed_data: list[tuple[int, str]] = []
         self._rank: int = 0
+        self._ingestion: int = 0
 
     @abstractmethod
     def validate(self, data: Any) -> bool:
@@ -18,6 +19,9 @@ class DataProcessor(ABC):
     def output(self) -> tuple[int, str]:
         pop_item = self._processed_data.pop(0)
         return pop_item
+
+    def get_ingestion(self) -> int:
+        return self._ingestion
 
 
 class NumericProcessor(DataProcessor):
@@ -43,9 +47,12 @@ class NumericProcessor(DataProcessor):
                 for x in conv_list:
                     self._processed_data += [(self._rank, x)]
                     self._rank += 1
+                    self._ingestion += 1
             elif isinstance(data, (int, float)):
                 conv_num = str(data)
                 self._processed_data += [(self._rank, conv_num)]
+                self._rank += 1
+                self._ingestion += 1
         else:
             raise ValueError
 
@@ -68,15 +75,17 @@ class TextProcessor(DataProcessor):
             (isinstance(data, list) and
              all(isinstance(d, str) for d in data)):
             if isinstance(data, list):
-                conv_text_list = data
+                conv_text_list: list = data
                 for z in conv_text_list:
                     self._processed_data += [(self._rank, z)]
                     self._rank += 1
+                    self._ingestion += 1
             else:
                 conv_text: str = data
                 self._processed_data += [(self._rank, conv_text)]
                 self._rank += 1
-            raise ValueError
+                self._ingestion += 1
+        raise ValueError
 
 
 class LogProcessor(DataProcessor):
@@ -122,11 +131,13 @@ class LogProcessor(DataProcessor):
                     dict_to_str = ": ".join(n.values())
                     self._processed_data += [(self._rank, dict_to_str)]
                     self._rank += 1
+                    self._ingestion += 1
             elif self.is_datatype_dict(data):
                 conv_dict = data
                 for m in conv_dict:
                     self._processed_data += [(self._rank, conv_dict[m])]
                     self._rank += 1
+                    self._ingestion += 1
         else:
             raise ValueError
 
@@ -138,7 +149,7 @@ class DataStream():
         self._proc_obj: list[DataProcessor] = []
 
     def register_processor(self, proc: DataProcessor) -> None:
-        self._storage = proc
+        self._proc_obj.append(proc)
 
     def process_stream(self, stream: list[Any]) -> None:
         for elm in stream:
@@ -157,6 +168,8 @@ class DataStream():
                     f"Can't process element in stream: {elm}")
 
     def print_processors_stats(self) -> None:
+        for t in self._proc_obj:
+            p
         print(
             f"{self._proc_obj} : total "
             f"{self._count} items processed, remaining {len(self._proc_obj)} on processor")

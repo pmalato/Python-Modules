@@ -46,6 +46,7 @@ class NumericProcessor(DataProcessor):
             elif isinstance(data, (int, float)):
                 conv_num = str(data)
                 self._processed_data += [(self._rank, conv_num)]
+                self._rank += 1
         else:
             raise ValueError
 
@@ -76,7 +77,7 @@ class TextProcessor(DataProcessor):
                 conv_text: str = data
                 self._processed_data += [(self._rank, conv_text)]
                 self._rank += 1
-            raise ValueError
+        raise ValueError
 
 
 class LogProcessor(DataProcessor):
