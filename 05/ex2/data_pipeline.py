@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Protocol
 from abc import ABC, abstractmethod
 
 
@@ -173,6 +173,11 @@ class DataStream():
                 count = t.get_ingestion_count()
                 print(f"{t.__class__.__name__}: total {count} items processed,"
                       f" remaining {len(t.processed_data)}")
+
+
+class ExportPlugin(Protocol):
+    ...
+
 
 
 def main() -> None:
