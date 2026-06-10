@@ -85,7 +85,8 @@ class TextProcessor(DataProcessor):
                 self._processed_data += [(self._rank, conv_text)]
                 self._rank += 1
                 self._ingestion += 1
-        raise ValueError
+        else:
+            raise ValueError
 
 
 class LogProcessor(DataProcessor):
