@@ -133,27 +133,33 @@ class LogProcessor(DataProcessor):
 
 class DataStream():
     def __init__(self) -> None:
+        self._count: int = 0
         self._storage: Any
-        self._data_processor: list[DataProcessor] = []
+        self._proc_obj: list[DataProcessor] = []
 
     def register_processor(self, proc: DataProcessor) -> None:
         self._storage = proc
 
     def process_stream(self, stream: list[Any]) -> None:
-        for v in stream:
-            checked: bool = False
-            for case in self._data_processor:
+        for elm in stream:
+            check: bool = False
+            for i in self._proc_obj:
                 try:
-                    if case.validate(v):
-                        case.ingest(v)
-                        checked = True
-                        break
-                except ValueError
-            else:
-                raise ValueError(f"Can't process element in stream: {v}")
+                    if i.validate(elm):
+                        i.ingest(elm)
+                        check = True
+                        self._count += 1
+                except ValueError as error:
+                    print("DataStream error - ", error)
+            if check is False:
+                print(
+                    "DataStream error -"
+                    f"Can't process element in stream: {elm}")
 
     def print_processors_stats(self) -> None:
-        ...
+        print(
+            f"{self._proc_obj} : total "
+            f"{self._count} items processed, remaining {len(self._proc_obj)} on processor")
 
 
 def main() -> None:
