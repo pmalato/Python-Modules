@@ -145,15 +145,15 @@ class LogProcessor(DataProcessor):
 
 class DataStream():
     def __init__(self) -> None:
-        self._proccess: list[DataProcessor] = []
+        self._process: list[DataProcessor] = []
 
     def register_processor(self, proc: DataProcessor) -> None:
-        self._proccess.append(proc)
+        self._process.append(proc)
 
     def process_stream(self, stream: list[Any]) -> None:
         for elm in stream:
             check: bool = False
-            for case in self._proccess:
+            for case in self._process:
                 try:
                     if case.validate(elm):
                         case.ingest(elm)
@@ -166,10 +166,10 @@ class DataStream():
 
     def print_processors_stats(self) -> None:
         count: int = 0
-        if self._proccess == []:
+        if self._process == []:
             print("No processor found, no data")
         else:
-            for t in self._proccess:
+            for t in self._process:
                 count = t.get_ingestion_count()
                 print(f"{t.__class__.__name__}: total {count} items processed,"
                       f" remaining {len(t.processed_data)}")
