@@ -2,6 +2,12 @@ from typing import Any, Protocol
 from abc import ABC, abstractmethod
 
 
+class ExportPlugin(Protocol):
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        for p in data:
+            ...
+
+
 class DataProcessor(ABC):
     def __init__(self) -> None:
         self.processed_data: list[tuple[int, str]] = []
@@ -174,9 +180,8 @@ class DataStream():
                 print(f"{t.__class__.__name__}: total {count} items processed,"
                       f" remaining {len(t.processed_data)}")
 
-
-class ExportPlugin(Protocol):
-    ...
+    def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
+        ...
 
 
 def main() -> None:
