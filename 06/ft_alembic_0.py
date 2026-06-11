@@ -1,3 +1,3 @@
-from elements import create_fire
+import elements
 
-create_fire()
+elements.create_fire()
