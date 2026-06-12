@@ -2,9 +2,10 @@ from abc import ABC, abstractmethod
 
 
 class Creature(ABC):
-    def _init__(self, name: str, type: str) -> None:
+    def __init__(self, name: str, type: str) -> None:
         self._name = name
         self._type = type
+        super().__init__()
 
     @abstractmethod
     def attack(self) -> str:
