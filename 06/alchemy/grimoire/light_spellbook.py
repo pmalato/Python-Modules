@@ -6,4 +6,6 @@ def light_spell_allowed_ingredients() -> list[str]:
 
 
 def light_spell_record(spell_name: str, ingredients: str) -> str:
-    return f"{spell_name} {ingredients} - {validate_ingredients(ingredients)}"
+    phrase: str = (
+        f"Spell record: {spell_name} {validate_ingredients(ingredients)}")
+    return phrase

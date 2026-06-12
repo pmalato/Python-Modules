@@ -5,7 +5,13 @@ from elements import create_water
 
 
 def healing_potion() -> str:
-	return f"Healing potion brewed with'{create_fire()}' and '{create_water()}'"
+    phrase: str = (
+        f"Healing potion brewed with'{create_fire()}' and '{create_water()}'")
+    return phrase
+
 
 def strength_potion() -> str:
-	return f"Strength potion brewed with '{create_earth()}' and '{create_air()}'"
+    phrase: str = (
+        f"Strength potion brewed with '{create_earth()}' and '{create_air()}'"
+    )
+    return phrase
