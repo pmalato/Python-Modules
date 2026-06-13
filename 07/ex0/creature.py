@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class Creature(ABC):
     def __init__(self, name: str, type: str) -> None:
-        self._name = name
+        self.name = name
         self._type = type
         super().__init__()
 
@@ -12,7 +12,7 @@ class Creature(ABC):
         ...
 
     def describe(self) -> str:
-        return f"{self._name} is a {self._type} type Creature"
+        return f"{self.name} is a {self._type} type Creature"
 
 
 class Flameling(Creature):
@@ -20,7 +20,7 @@ class Flameling(Creature):
         super().__init__(name, type)
 
     def attack(self) -> str:
-        phrase: str = f"{self._name} uses Ember!"
+        phrase: str = f"{self.name} uses Ember!"
         return phrase
 
 
@@ -29,7 +29,7 @@ class Pyrodon(Creature):
         super().__init__(name, type)
 
     def attack(self) -> str:
-        phrase: str = f"{self._name} uses Flamethrower!"
+        phrase: str = f"{self.name} uses Flamethrower!"
         return phrase
 
 
@@ -38,7 +38,7 @@ class Aquabub(Creature):
         super().__init__(name, type)
 
     def attack(self) -> str:
-        phrase: str = f"{self._name} uses Water Gun!"
+        phrase: str = f"{self.name} uses Water Gun!"
         return phrase
 
 
@@ -47,5 +47,5 @@ class Torragon(Creature):
         super().__init__(name, type)
 
     def attack(self) -> str:
-        phrase: str = f"{self._name} uses Hydro Pump!"
+        phrase: str = f"{self.name} uses Hydro Pump!"
         return phrase
