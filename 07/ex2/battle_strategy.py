@@ -10,16 +10,16 @@ class InvalidCreatureError(Exception):
 
 class BattleStrategy(ABC):
     @abstractmethod
-    def act(self) -> None:
+    def act(self, creature: Creature) -> None:
         ...
 
     @abstractmethod
-    def is_valid(self) -> bool:
+    def is_valid(self, creature: Creature) -> bool:
         ...
 
 
 class NormalStrategy(BattleStrategy):
-    def act(self, creature: Creature) -> str:
+    def act(self, creature: Creature) -> None:
         if not self.is_valid(creature):
             raise InvalidCreatureError(
                 f"Invalid Creature '{creature.name}'"
