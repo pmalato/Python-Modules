@@ -56,7 +56,7 @@ def main() -> None:
     print("*** Tournament ***")
     print(f"{len(combatents2)} opponents involved\n")
     battle(combatents2)
-    print("Tournament 2 (multiple)")
+    print("\nTournament 2 (multiple)")
     print("[ (Aquabub+Normal), (Healing+Defensive), (Transform+Aggressive) ]")
     print("*** Tournament ***")
     print(f"{len(combatents3)} opponents involved\n")
