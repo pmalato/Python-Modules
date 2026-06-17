@@ -1,16 +1,16 @@
 [tool.poetry]
 name = "loading"
 version = "0.1.0"
-descprition = "First attempt to a python makefile"
-author = ["pecoelho"]
-package-mode = False
+description = "First attempt to a python makefile"
+authors = ["pecoelho"]
+package-mode = false
 
 [tool.poetry.dependencies]
-pytohn >= "3.10"
-pandas = "2.1.0"
-numpy = "1.25.0"
-matplotlib = "3.7.2"
+python = "^3.10"
+pandas = "^2.1.0"
+numpy = "^1.25.0"
+matplotlib = "^3.7.2"
 
 [build-system]
-build-backend = ["poetry.core.masonry.api"]
+build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core"]
