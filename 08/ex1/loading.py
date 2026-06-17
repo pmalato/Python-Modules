@@ -35,24 +35,38 @@ def main() -> None:
             print(imp_error3)
         print("\nAnalyzing Matrix data...")
         try:
-            import pandas as pd  # type: ignore
-            # missing application
+            import numpy as np  # type: ignore
+            arr = np.random.randint(0, 10, (20, 50), int)
         except ImportError as error:
             print("Import error: ", error)
             return None
         print("Processing 1000 data points...")
         try:
-            import numpy as np  # type: ignore
-            # missing application
-        except ImportError as error:
-            print("Import error: ", error)
+            import pandas as pd  # type: ignore
+            df = pd.DataFrame(arr)
+            change = pd.DataFrame.stack(df)
+            change.value_counts()
+        except Exception as error:
+            print("Error: ", error)
             return None
         print("Generating visualization...")
         try:
+            from matplotlib.colors import (  # type: ignore
+                LinearSegmentedColormap as mcl)  # type: ignore
+            green_matrix_cmap = mcl('green_matrix', {
+                'red': [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0)],
+                'green': [(0.0, 0.0, 0.0), (1.0, 1.0, 1.0)],
+                'blue': [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0)]
+            })
+        except Exception as error:
+            print("Error: ", error)
+        try:
             import matplotlib.pyplot as plt  # type: ignore
-            # missing application
-        except ImportError as error:
-            print("Import error: ", error)
+            plt.imshow(
+                df, cmap=green_matrix_cmap, interpolation='nearest')
+            plt.colorbar()
+        except Exception as error:
+            print("Error: ", error)
             return None
         print("\nAnalysis complete!")
         try:
