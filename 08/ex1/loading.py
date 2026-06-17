@@ -17,6 +17,35 @@ def check_modules(name: str, description: str) -> str | None:
         return None
 
 
+def compare_dependencies() -> None:
+    print("\nDemonstrating dependencies management differences...")
+    print("pip example")
+    try:
+        with open("requirements.txt", "r") as req:
+            print(req.read())
+    except Exception as error:
+        print("Error: ", error)
+    print("\nPoetry example")
+    try:
+        with open("pyproject.toml", "r") as poet:
+            print(poet.read())
+    except Exception as error:
+        print("Error: ", error)
+    print(
+        "\nTo summarize...\n"
+        "pip installs exactly what's listed in any given .txt file,\n"
+        "but doesn't resolve or lock the full dependency tree.\n"
+        "Sub-dependencies can shift versions over time,\n"
+        "which makes the same file to produce slightly\n"
+        "different environments on different installs.\n"
+        "That's where Poetry comes in contrast. Poetry, resolves the\n"
+        "entire dependency graph and locks every exact version\n"
+        "(sub-dependencies included) into a poetry.lock file.\n"
+        "This ensures the same reproducible environment every time.\n"
+        "It also manages the virtual environment automatically rather\n"
+        "than relying on the user to set one up.")
+
+
 def main() -> None:
 
     is_venv = prefix != base_prefix
@@ -75,6 +104,7 @@ def main() -> None:
             print(f"Unable to save to: {png_reference}")
             return None
         print(f"Results saved to: {png_reference}")
+        compare_dependencies()
     else:
         print("You forgot to enter the venv, bruh")
 
