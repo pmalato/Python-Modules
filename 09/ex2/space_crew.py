@@ -35,6 +35,9 @@ class SpaceMission(BaseModel):
     mission_status: str = Field(default="planned")
     budget_millions: float = Field(ge=1.0, le=1000000.0)
 
+    @model_validator(mode='after')
+    def 
+
 
 def main() -> None:
     print("Space Mission Crew Validation")

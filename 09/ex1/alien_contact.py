@@ -16,9 +16,9 @@ class ContactType(Enum):
 
 class AlienContact(BaseModel):
     contact_id: str = Field(min_length=5, max_length=15)
-    timestamp: datetime = Field(default=datetime)
+    timestamp: datetime = datetime.now()
     location: str = Field(min_length=3, max_length=300)
-    contact_type: ContactType = Field(default=1)
+    contact_type: ContactType = Field(default=ContactType.radio)
     signal_strength: float = Field(ge=0.0, le=10.0)
     duration_minutes: int = Field(ge=1, le=1440)
     witness_count: int = Field(ge=1, le=100)
@@ -26,17 +26,26 @@ class AlienContact(BaseModel):
     is_verified: bool = Field(default=False)
 
     @model_validator(mode='after')
-    def validation(self) -> "AlienContact":
+    def validation_rules(self) -> "AlienContact":
         invalid = []
+        fouls: int = 0
         if not self.contact_id.startswith("AC"):
-            invalid.append(self.contact_id)
+            invalid.append("Contact ID must start with 'AC' (Alien Contact)")
+            fouls += 1
         if self.contact_type == ContactType.physical and not self.is_verified:
-            invalid.append(self.contact_type)
+            invalid.append("Physical contact reports must be verified")
+            fouls += 1
         if self.contact_type == ContactType.telepathic and\
                 self.witness_count <= 3:
-            invalid.append(self.contact_id)
+            invalid.append("Telepathic contact requires at least 3 witnesses")
+            fouls += 1
         if self.signal_strength >= 7.0 and not self.message_received:
-            invalid.append(self.signal_strength)
+            invalid.append(
+                "Strong signals (> 7.0) should include received "
+                "messages")
+            fouls += 1
+        if fouls:
+            raise ValueError("\n".join(invalid))
         return self
 
 
@@ -76,7 +85,8 @@ def main() -> None:
             witness_count=2
         )
     except ValidationError as e:
-        print(e)
+        for x in e.errors():
+            print(x["msg"])
         return
     print(station2.contact_type)
 
