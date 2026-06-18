@@ -18,7 +18,7 @@ class Rank(Enum):
 class CrewMember(BaseModel):
     member_id: str = Field(default="PT50", min_length=3, max_length=10)
     name: str = Field(min_length=2, max_length=50)
-    rank: Rank = Field(default=2)
+    rank: Rank = Field(default=Rank.officer)
     age: int = Field(default=30, ge=18, le=80)
     specialization: str = Field(min_length=3, max_length=30)
     years_experience: int = Field(default=15, ge=0, le=50)
@@ -29,7 +29,7 @@ class SpaceMission(BaseModel):
     mission_id: str = Field(min_length=5, max_length=15)
     mission_name: str = Field(min_length=3, max_length=100)
     destination: str = Field(min_length=3, max_length=50)
-    launch_date: datetime = Field(default=datetime)
+    launch_date: datetime = Field(default_factory=datetime.now())
     duration_days: int = Field(ge=1, le=3650)
     crew: list[CrewMember] = Field(min_length=1, max_length=12)
     mission_status: str = Field(default="planned")
@@ -45,13 +45,14 @@ class SpaceMission(BaseModel):
         if not any(c.rank.value >= Rank.captain.value for c in self.crew):
             invalid.append("Must have at least one Commander or Captain")
             fouls += 1
-        if not (self.duration_days >= 365 and
-                b.years_experience >= 5 for b in self.crew):
-            invalid.append(
-                "Long missions (> 365 days) need 50% "
-                "experienced crew (5+ years)")
-            fouls += 1
-        if not (i.is_active for i in self.crew):
+        if self.duration_days >= 365:
+            exp_count = sum(1 for b in self.crew if b.years_experience >= 5)
+            if exp_count < len(self.crew) / 2:
+                invalid.append(
+                    "Long missions (> 365 days) need 50% "
+                    "experienced crew (5+ years)")
+                fouls += 1
+        if not all(i.is_active for i in self.crew):
             invalid.append("All crew members must be active")
             fouls += 1
         if fouls:
