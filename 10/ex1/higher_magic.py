@@ -23,7 +23,7 @@ def conditional_caster(condition: Callable, spell: Callable) -> Callable:
 
 
 def spell_sequence(spells: list[Callable]) -> Callable:
-    def spell(target: str, power: int) -> str:
+    def spell(target: str, power: int) -> list:
         return [x(target, power) for x in spells]
     return spell
 
