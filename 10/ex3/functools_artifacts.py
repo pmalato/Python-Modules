@@ -1,4 +1,4 @@
-from functools import reduce, partial, lru_cache
+from functools import reduce, partial, lru_cache, singledispatch
 from collections.abc import Callable
 from operator import mul, add
 from typing import Any
@@ -16,7 +16,7 @@ def spell_reducer(spells: list[int], operation: str) -> int:
     try:
         return operations[operation]
     except KeyError as e:
-        print("Error: ", e)
+        print("Non-existing Key: ", e)
         return 0
 
 
@@ -39,11 +39,32 @@ def memoized_fibonacci(n: int) -> int:
 
 
 def spell_dispatcher() -> Callable[[Any], str]:
-    return spell_dispatcher
+    @singledispatch
+    def base_spell(spell: Any) -> Any:
+        return f"Unknown spell type: {spell}"
+
+    @base_spell.register(int)
+    def damage_spell(spell: int) -> int:
+        return spell
+
+    @base_spell.register(str)
+    def enchantment(spell: str) -> str:
+        return f"{spell}"
+
+    @base_spell.register(list)
+    def multi_cast(spell: list) -> list:
+        return [x for x in spell]
+    return base_spell
 
 
 def main() -> None:
     print("\nTesting spell reducer...")
+    operation_list = [1, 2, 3, 4, 5]
+    print("Addition", spell_reducer(operation_list, "add"))
+    print("Multiplication", spell_reducer(operation_list, "multiply"))
+    print("Max", spell_reducer(operation_list, "max"))
+    print("Min", spell_reducer(operation_list, "min"))
+    print("Unknown", spell_reducer(operation_list, "cowabanga"))
     print("\nTesting partial enchanter...")
 
     def base_enchantment(power: int, element: str, target: str) -> str:
@@ -54,6 +75,11 @@ def main() -> None:
     print("\nTesting memoized fibonacci...")
     print(memoized_fibonacci(35))
     print("\nTesting spell dispatcher...")
+    spell = spell_dispatcher()
+    print(spell(45))
+    print(spell("Wazaaaaaa"))
+    print(spell(["crazy", "people", "are", "the", "best"]))
+    print(spell({"something": 67}))
 
 
 if __name__ == "__main__":
